@@ -7,60 +7,37 @@ import {
   ScrollView,
 } from "react-native";
 import * as Icon from "@expo/vector-icons";
-import { connect } from "react-redux";
-
-function mapStateToProps(state) {
-  return { action: state.action };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    closeMenu: () =>
-      dispatch({
-        type: "CLOSE_MENU",
-      }),
-  };
-}
 
 const screenHeight = Dimensions.get("window").height;
 
-class Menu extends React.Component {
+class OpenCard extends React.Component {
   state = {
     top: new Animated.Value(screenHeight),
   };
 
-  componentDidMount() {
-    this.toggleMenu();
-  }
-
-  componentDidUpdate() {
-    this.toggleMenu();
-  }
+  compone;
+  //   componentDidMount() {
+  //     Animated.spring(this.state.top, {
+  //       toValue: 100,
+  //     }).start();
+  //   }
 
   toggleMenu = () => {
-    if (this.props.action == "openMenu") {
-      Animated.spring(this.state.top, {
-        toValue: 0,
-      }).start();
-    }
-
-    if (this.props.action == "closeMenu") {
-      Animated.spring(this.state.top, {
-        toValue: screenHeight,
-      }).start();
-    }
+    Animated.spring(this.state.top, {
+      toValue: screenHeight,
+    }).start();
   };
 
   render() {
     return (
       <AnimatedContainer style={{ top: this.state.top }}>
         <Cover>
-          <Image source={require("../assets/background8.jpg")} />
-          <Title>HealthConnectX</Title>
-          <Subtitle>A DuffyAPP_IT Project</Subtitle>
+          <Image source={this.props.headherimg} />
+          <Title>{this.props.title}</Title>
+          <Subtitle>{this.props.sub}</Subtitle>
         </Cover>
         <TouchableOpacity
-          onPress={this.props.closeMenu}
+          onPress={this.toggleMenu}
           style={{
             position: "absolute",
             top: 120,
@@ -79,7 +56,7 @@ class Menu extends React.Component {
             padding: 15,
           }}
         >
-          Welcome To HCX Beta
+          {this.props.paraheadertxt}
         </Header>
         <Sub
           style={{
@@ -87,8 +64,7 @@ class Menu extends React.Component {
             padding: 15,
           }}
         >
-          HealthConnectX is my first App Development Project, written entirely
-          in React Native.
+          {this.props.para1}
         </Sub>
 
         <Sub
@@ -96,11 +72,10 @@ class Menu extends React.Component {
             padding: 15,
           }}
         >
-          I hope you enjoy it! The source is published on my GitHub Account for
-          y'all to check out.
+          {this.props.para2}
         </Sub>
 
-        <SubPic source={require("../assets/avatar.jpg")} />
+        <SubPic source={this.props.parapic} />
 
         <Cred
           style={{
@@ -108,7 +83,7 @@ class Menu extends React.Component {
             paddingTop: 25,
           }}
         >
-          @j_duffy01 // DuffyAPP-IT
+          HealthConnectX
         </Cred>
 
         <Content />
@@ -116,8 +91,7 @@ class Menu extends React.Component {
     );
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default OpenCard;
 
 const Image = styled.Image`
   position: absolute;
